@@ -1,5 +1,5 @@
 const express = require("express");
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 const router = express.Router();
 const DATA_PATH = path.join(__dirname, "../../../data/items.json");
@@ -14,11 +14,24 @@ async function readData() {
 router.get("/", async (req, res, next) => {
   try {
     const data = await readData();
+    const { q, limit, offset } = req.query;
 
+    let results = data;
+
+    // Apply search filter if query parameter exists
     // Simple substring search (sub‑optimal)
-    const results = data.filter((item) =>
-      item.name.toLowerCase().includes(q.toLowerCase())
-    );
+    if (q) {
+      results = results.filter((item) =>
+        item.name.toLowerCase().includes(q.toLowerCase())
+      );
+    }
+
+    // Apply pagination if parameters exist
+    if (limit !== undefined || offset !== undefined) {
+      const startIndex = parseInt(offset) || 0;
+      const endIndex = limit ? startIndex + parseInt(limit) : undefined;
+      results = results.slice(startIndex, endIndex);
+    }
 
     res.json(results);
   } catch (err) {
@@ -47,11 +60,39 @@ router.get("/:id", async (req, res, next) => {
 // POST /api/items
 router.post("/", async (req, res, next) => {
   try {
-    // TODO: Validate payload (intentional omission)
-    const item = req.body;
-    const data = await readData();
+    // Validate payload
+    const { name, price, description } = req.body;
+    const errors = [];
 
-    item.id = Date.now();
+    // Required field validation
+    if (!name) errors.push("Name is required");
+    if (price === undefined) errors.push("Price is required");
+
+    // Type validation
+    if (name && typeof name !== "string") errors.push("Name must be a string");
+    if (price !== undefined && typeof price !== "number")
+      errors.push("Price must be a number");
+    if (price !== undefined && price < 0)
+      errors.push("Price cannot be negative");
+    if (description && typeof description !== "string")
+      errors.push("Description must be a string");
+
+    // Return validation errors if any
+    if (errors.length > 0) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: errors,
+      });
+    }
+
+    const item = {
+      name,
+      price,
+      description: description || "",
+      id: Date.now(),
+    };
+
+    const data = await readData();
     data.push(item);
 
     await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
