@@ -16,24 +16,28 @@ router.get("/", async (req, res, next) => {
     const data = await readData();
     const { q, limit, offset } = req.query;
 
-    let results = data;
+    let filteredResults = data;
 
     // Apply search filter if query parameter exists
     // Simple substring search (sub‑optimal)
     if (q) {
-      results = results.filter((item) =>
+      filteredResults = filteredResults.filter((item) =>
         item.name.toLowerCase().includes(q.toLowerCase())
       );
     }
 
+    // Store the total count before pagination
+    const total = filteredResults.length;
+
     // Apply pagination if parameters exist
+    let paginatedResults = filteredResults;
     if (limit !== undefined || offset !== undefined) {
       const startIndex = parseInt(offset) || 0;
       const endIndex = limit ? startIndex + parseInt(limit) : undefined;
-      results = results.slice(startIndex, endIndex);
+      paginatedResults = filteredResults.slice(startIndex, endIndex);
     }
 
-    res.json(results);
+    res.json({ total, results: paginatedResults });
   } catch (err) {
     next(err);
   }
