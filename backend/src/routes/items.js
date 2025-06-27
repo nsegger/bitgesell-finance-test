@@ -1,47 +1,60 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const fs = require("fs").promises;
+const path = require("path");
 const router = express.Router();
-const DATA_PATH = path.join(__dirname, '../../../data/items.json');
+const DATA_PATH = path.join(__dirname, "../../../data/items.json");
 
-// Utility to read data (intentionally sync to highlight blocking issue)
-function readData() {
-  const raw = fs.readFileSync(DATA_PATH);
+// Utility to read data asynchronously, without I/O blocking the main thread
+async function readData() {
+  const raw = await fs.readFile(DATA_PATH);
   return JSON.parse(raw);
 }
 
 // GET /api/items
-router.get('/', (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const data = readData();
-    const { limit, q } = req.query;
-    let results = data;
+    const data = await readData();
+    const { q, limit, offset } = req.query;
 
+    let filteredResults = data;
+
+    // Apply search filter if query parameter exists
+    // Simple substring search (sub‑optimal)
     if (q) {
-      // Simple substring search (sub‑optimal)
-      results = results.filter(item => item.name.toLowerCase().includes(q.toLowerCase()));
+      filteredResults = filteredResults.filter((item) =>
+        item.name.toLowerCase().includes(q.toLowerCase())
+      );
     }
 
-    if (limit) {
-      results = results.slice(0, parseInt(limit));
+    // Store the total count before pagination
+    const total = filteredResults.length;
+
+    // Apply pagination if parameters exist
+    let paginatedResults = filteredResults;
+    if (limit !== undefined || offset !== undefined) {
+      const startIndex = parseInt(offset) || 0;
+      const endIndex = limit ? startIndex + parseInt(limit) : undefined;
+      paginatedResults = filteredResults.slice(startIndex, endIndex);
     }
 
-    res.json(results);
+    res.json({ total, results: paginatedResults });
   } catch (err) {
     next(err);
   }
 });
 
 // GET /api/items/:id
-router.get('/:id', (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
-    const data = readData();
-    const item = data.find(i => i.id === parseInt(req.params.id));
+    const data = await readData();
+    const item = data.find((i) => i.id === parseInt(req.params.id));
+
     if (!item) {
-      const err = new Error('Item not found');
+      const err = new Error("Item not found");
       err.status = 404;
       throw err;
     }
+
     res.json(item);
   } catch (err) {
     next(err);
@@ -49,14 +62,44 @@ router.get('/:id', (req, res, next) => {
 });
 
 // POST /api/items
-router.post('/', (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    // TODO: Validate payload (intentional omission)
-    const item = req.body;
-    const data = readData();
-    item.id = Date.now();
+    // Validate payload
+    const { name, price, description } = req.body;
+    const errors = [];
+
+    // Required field validation
+    if (!name) errors.push("Name is required");
+    if (price === undefined) errors.push("Price is required");
+
+    // Type validation
+    if (name && typeof name !== "string") errors.push("Name must be a string");
+    if (price !== undefined && typeof price !== "number")
+      errors.push("Price must be a number");
+    if (price !== undefined && price < 0)
+      errors.push("Price cannot be negative");
+    if (description && typeof description !== "string")
+      errors.push("Description must be a string");
+
+    // Return validation errors if any
+    if (errors.length > 0) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: errors,
+      });
+    }
+
+    const item = {
+      name,
+      price,
+      description: description || "",
+      id: Date.now(),
+    };
+
+    const data = await readData();
     data.push(item);
-    fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
+
+    await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
     res.status(201).json(item);
   } catch (err) {
     next(err);

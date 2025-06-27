@@ -1,7 +1,302 @@
 [
-  { "id": 1, "name": "Laptop Pro", "category": "Electronics", "price": 2499 },
-  { "id": 2, "name": "Noise Cancelling Headphones", "category": "Electronics", "price": 399 },
-  { "id": 3, "name": "Ultra‑Wide Monitor", "category": "Electronics", "price": 999 },
-  { "id": 4, "name": "Ergonomic Chair", "category": "Furniture", "price": 799 },
-  { "id": 5, "name": "Standing Desk", "category": "Furniture", "price": 1199 }
+  {
+    "id": 1,
+    "name": "Laptop Pro",
+    "category": "Electronics",
+    "price": 2499
+  },
+  {
+    "id": 2,
+    "name": "Noise Cancelling Headphones",
+    "category": "Electronics",
+    "price": 399
+  },
+  {
+    "id": 3,
+    "name": "Ultra‑Wide Monitor",
+    "category": "Electronics",
+    "price": 999
+  },
+  {
+    "id": 4,
+    "name": "Ergonomic Chair",
+    "category": "Furniture",
+    "price": 799
+  },
+  {
+    "id": 5,
+    "name": "Standing Desk",
+    "category": "Furniture",
+    "price": 1199
+  },
+  {
+    "id": 6,
+    "name": "Wireless Keyboard",
+    "category": "Electronics",
+    "price": 129
+  },
+  {
+    "id": 7,
+    "name": "Wireless Mouse",
+    "category": "Electronics",
+    "price": 79
+  },
+  {
+    "id": 8,
+    "name": "4K Webcam",
+    "category": "Electronics",
+    "price": 199
+  },
+  {
+    "id": 9,
+    "name": "External SSD 1TB",
+    "category": "Electronics",
+    "price": 149
+  },
+  {
+    "id": 10,
+    "name": "Docking Station",
+    "category": "Electronics",
+    "price": 249
+  },
+  {
+    "id": 11,
+    "name": "Coffee Maker",
+    "category": "Kitchen",
+    "price": 89
+  },
+  {
+    "id": 12,
+    "name": "Espresso Machine",
+    "category": "Kitchen",
+    "price": 499
+  },
+  {
+    "id": 13,
+    "name": "Blender",
+    "category": "Kitchen",
+    "price": 79
+  },
+  {
+    "id": 14,
+    "name": "Toaster Oven",
+    "category": "Kitchen",
+    "price": 129
+  },
+  {
+    "id": 15,
+    "name": "Air Fryer",
+    "category": "Kitchen",
+    "price": 149
+  },
+  {
+    "id": 16,
+    "name": "Bookshelf",
+    "category": "Furniture",
+    "price": 299
+  },
+  {
+    "id": 17,
+    "name": "Coffee Table",
+    "category": "Furniture",
+    "price": 349
+  },
+  {
+    "id": 18,
+    "name": "Sofa",
+    "category": "Furniture",
+    "price": 1299
+  },
+  {
+    "id": 19,
+    "name": "Dining Table",
+    "category": "Furniture",
+    "price": 899
+  },
+  {
+    "id": 20,
+    "name": "Bed Frame",
+    "category": "Furniture",
+    "price": 699
+  },
+  {
+    "id": 21,
+    "name": "Smartphone Pro",
+    "category": "Electronics",
+    "price": 1099
+  },
+  {
+    "id": 22,
+    "name": "Tablet Ultra",
+    "category": "Electronics",
+    "price": 899
+  },
+  {
+    "id": 23,
+    "name": "Smart Watch",
+    "category": "Electronics",
+    "price": 399
+  },
+  {
+    "id": 24,
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 129
+  },
+  {
+    "id": 25,
+    "name": "Wireless Earbuds",
+    "category": "Electronics",
+    "price": 179
+  },
+  {
+    "id": 26,
+    "name": "Robot Vacuum",
+    "category": "Appliances",
+    "price": 349
+  },
+  {
+    "id": 27,
+    "name": "Smart Thermostat",
+    "category": "Smart Home",
+    "price": 249
+  },
+  {
+    "id": 28,
+    "name": "Security Camera",
+    "category": "Smart Home",
+    "price": 199
+  },
+  {
+    "id": 29,
+    "name": "Smart Doorbell",
+    "category": "Smart Home",
+    "price": 179
+  },
+  {
+    "id": 30,
+    "name": "Smart Light Bulbs (4-pack)",
+    "category": "Smart Home",
+    "price": 89
+  },
+  {
+    "id": 31,
+    "name": "Yoga Mat",
+    "category": "Fitness",
+    "price": 49
+  },
+  {
+    "id": 32,
+    "name": "Dumbbells Set",
+    "category": "Fitness",
+    "price": 199
+  },
+  {
+    "id": 33,
+    "name": "Exercise Bike",
+    "category": "Fitness",
+    "price": 799
+  },
+  {
+    "id": 34,
+    "name": "Treadmill",
+    "category": "Fitness",
+    "price": 1299
+  },
+  {
+    "id": 35,
+    "name": "Fitness Tracker",
+    "category": "Electronics",
+    "price": 149
+  },
+  {
+    "id": 36,
+    "name": "Backpack",
+    "category": "Accessories",
+    "price": 79
+  },
+  {
+    "id": 37,
+    "name": "Laptop Sleeve",
+    "category": "Accessories",
+    "price": 39
+  },
+  {
+    "id": 38,
+    "name": "USB-C Hub",
+    "category": "Electronics",
+    "price": 59
+  },
+  {
+    "id": 39,
+    "name": "Wireless Charger",
+    "category": "Electronics",
+    "price": 49
+  },
+  {
+    "id": 40,
+    "name": "Portable Power Bank",
+    "category": "Electronics",
+    "price": 69
+  },
+  {
+    "id": 41,
+    "name": "Desk Lamp",
+    "category": "Lighting",
+    "price": 59
+  },
+  {
+    "id": 42,
+    "name": "Floor Lamp",
+    "category": "Lighting",
+    "price": 129
+  },
+  {
+    "id": 43,
+    "name": "Ceiling Fan",
+    "category": "Lighting",
+    "price": 249
+  },
+  {
+    "id": 44,
+    "name": "Area Rug 5x8",
+    "category": "Home Decor",
+    "price": 199
+  },
+  {
+    "id": 45,
+    "name": "Throw Pillows (set of 2)",
+    "category": "Home Decor",
+    "price": 49
+  },
+  {
+    "id": 46,
+    "name": "Wall Art Canvas",
+    "category": "Home Decor",
+    "price": 89
+  },
+  {
+    "id": 47,
+    "name": "Plant Pot",
+    "category": "Home Decor",
+    "price": 29
+  },
+  {
+    "id": 48,
+    "name": "Cutlery Set",
+    "category": "Kitchen",
+    "price": 99
+  },
+  {
+    "id": 49,
+    "name": "Cookware Set",
+    "category": "Kitchen",
+    "price": 299
+  },
+  {
+    "id": 50,
+    "name": "Food Processor",
+    "category": "Kitchen",
+    "price": 179
+  }
 ]
